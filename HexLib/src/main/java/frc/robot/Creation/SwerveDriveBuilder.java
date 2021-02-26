@@ -2,16 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil;
+package frc.robot.Creation;
+
 
 import edu.wpi.first.wpilibj.interfaces.Gyro;
-import frc.robot.CreationUtil;
+
+//import frc.robot.Creation.CreationUtil;
+
 import frc.robot.DriveTrain.SwerveDrive.SwerveDriveClasses.SwerveDrive;
 import frc.robot.DriveTrain.SwerveDrive.SwerveDriveClasses.SwerveModule;
+import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
+import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstants;
+import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstantsGroup;
 
 /** Add your docs here. */
 // Takes in a SwerveModuleConstantsGroup, Gyro Type, Length (Meters),
 // Width(Meters).
+
 public class SwerveDriveBuilder {
     SwerveModuleConstantsGroup swerveModuleConstantsGroup;
     SwerveBuilderConstants swerveBuilderConstants;
@@ -35,6 +42,11 @@ public class SwerveDriveBuilder {
         this.width = width;
     }
 
+    
+    /** 
+     * @param swerveDriveBuilder
+     * @return SwerveDrive
+     */
     public static SwerveDrive buildSwerve(SwerveDriveBuilder swerveDriveBuilder) {
 
         SwerveModuleConstants frontLeftConstants = swerveDriveBuilder.swerveModuleConstantsGroup

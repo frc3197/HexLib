@@ -8,7 +8,8 @@ package frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil;
 public class SwerveBuilderConstants {
     private double length, width, maxAngleSpeed, maxAngleAcceleration, maxDriveSpeed, rampRate;
 
-    public SwerveBuilderConstants(double length, double width, double maxAngleSpeed, double maxAngleAcceleration, double maxDriveSpeed, double rampRate){
+    public SwerveBuilderConstants(double length, double width, double maxAngleSpeed, double maxAngleAcceleration,
+            double maxDriveSpeed, double rampRate) {
         this.length = length;
         this.width = width;
         this.maxAngleSpeed = maxAngleSpeed;
@@ -17,26 +18,46 @@ public class SwerveBuilderConstants {
         this.rampRate = rampRate;
     }
 
-    public double getLength(){
+    /**
+     * @return double
+     */
+    public double getLength() {
         return length;
     }
-    public double getWidth(){
+
+    /**
+     * @return double
+     */
+    public double getWidth() {
         return width;
     }
-    public double getMaxAngleSpeed(){
+
+    /**
+     * @return double
+     */
+    public double getMaxAngleSpeed() {
         return maxAngleSpeed;
     }
-    public double getMaxAngleAcceleration(){
+
+    /**
+     * @return double
+     */
+    public double getMaxAngleAcceleration() {
         return maxAngleAcceleration;
     }
-    public double getMaxDriveSpeed(){
+
+    /**
+     * @return double
+     */
+    public double getMaxDriveSpeed() {
         return maxDriveSpeed;
     }
-    public double getRampRate(){
+
+    /**
+     * @return double
+     */
+    public double getRampRate() {
         return rampRate;
     }
-
-
-
 
 }

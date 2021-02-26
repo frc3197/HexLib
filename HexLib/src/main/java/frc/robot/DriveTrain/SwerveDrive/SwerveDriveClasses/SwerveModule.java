@@ -23,15 +23,18 @@ import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
 import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstants;
 
 public class SwerveModule extends SubsystemBase {
-// Measurments are all done in Meters.
+  // Measurments are all done in Meters.
   private static SwerveBuilderConstants swerveBuilderConstants;
 
   private static final double kModuleMaxAngularVelocity = swerveBuilderConstants.getMaxAngleSpeed();
-  private static final double kModuleMaxAngularAcceleration = swerveBuilderConstants.getMaxAngleAcceleration(); // radians per second squared
+  private static final double kModuleMaxAngularAcceleration = swerveBuilderConstants.getMaxAngleAcceleration(); // radians
+                                                                                                                // per
+                                                                                                                // second
+                                                                                                                // squared
 
   private final WPI_TalonFX speed_motor;
   private final WPI_TalonFX angle_motor;
-  
+
   private SwerveModuleConstants swerveModuleConstants;
   static int numModule = 0;
   final int moduleNumber;
@@ -44,7 +47,7 @@ public class SwerveModule extends SubsystemBase {
   private final SimpleMotorFeedforward m_turnFeedforward;
 
   @SuppressWarnings("static-access")
-  public SwerveModule(SwerveModuleConstants swerveModuleConstants,SwerveBuilderConstants swerveBuilderConstants) {
+  public SwerveModule(SwerveModuleConstants swerveModuleConstants, SwerveBuilderConstants swerveBuilderConstants) {
     moduleNumber = numModule;
     numModule++;
     angle_motor = new WPI_TalonFX(swerveModuleConstants.getAngleID());
@@ -52,15 +55,19 @@ public class SwerveModule extends SubsystemBase {
     this.swerveModuleConstants = swerveModuleConstants;
     this.swerveBuilderConstants = swerveBuilderConstants;
 
-    m_turningPIDController = new ProfiledPIDController(swerveModuleConstants.getPID_P_Angle(),swerveModuleConstants.getPID_I_Angle(), swerveModuleConstants.getPID_D_Angle(),
-      new TrapezoidProfile.Constraints(kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
+    m_turningPIDController = new ProfiledPIDController(swerveModuleConstants.getPID_P_Angle(),
+        swerveModuleConstants.getPID_I_Angle(), swerveModuleConstants.getPID_D_Angle(),
+        new TrapezoidProfile.Constraints(kModuleMaxAngularVelocity, kModuleMaxAngularAcceleration));
 
-    m_drivePIDController = new PIDController(swerveModuleConstants.getPID_P_Drive(), swerveModuleConstants.getPID_I_Drive(), swerveModuleConstants.getPID_D_Drive());
+    m_drivePIDController = new PIDController(swerveModuleConstants.getPID_P_Drive(),
+        swerveModuleConstants.getPID_I_Drive(), swerveModuleConstants.getPID_D_Drive());
 
-    m_driveFeedforward = new SimpleMotorFeedforward(swerveModuleConstants.getFF_kS_Drive(),swerveModuleConstants.getFF_kV_Drive());
-    m_turnFeedforward = new SimpleMotorFeedforward(swerveModuleConstants.getFF_kS_Angle(),swerveModuleConstants.getFF_kS_Angle());
+    m_driveFeedforward = new SimpleMotorFeedforward(swerveModuleConstants.getFF_kS_Drive(),
+        swerveModuleConstants.getFF_kV_Drive());
+    m_turnFeedforward = new SimpleMotorFeedforward(swerveModuleConstants.getFF_kS_Angle(),
+        swerveModuleConstants.getFF_kS_Angle());
     encoder = new CANCoder(swerveModuleConstants.getEncoderID());
-  
+
     angle_motor.configOpenloopRamp(swerveBuilderConstants.getRampRate());
     speed_motor.configOpenloopRamp(swerveBuilderConstants.getRampRate());
     angle_motor.setNeutralMode(NeutralMode.Brake);
@@ -76,84 +83,96 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+
     // This method will be called once per scheduler run
   }
 
-  public double getRPM(){
+  /**
+   * @return double
+   */
+  public double getRPM() {
     return speed_motor.getSelectedSensorVelocity() / Constants.talonEncoderResolution * 10 * 60;
   }
 
-  public double getSpeedEncoderRate(){
-    //Pulls the integrated sensor velocity
+  /**
+   * @return double
+   */
+  public double getSpeedEncoderRate() {
+    // Pulls the integrated sensor velocity
     double driveUnitsPer100ms = angle_motor.getSelectedSensorVelocity();
     // Converts the encoder rate to meters per second
-    double encoderRate = driveUnitsPer100ms / Constants.talonEncoderResolution * 10 * Constants.swerveWheelDiam * Constants.swerveDriveMotorGR;
+    double encoderRate = driveUnitsPer100ms / Constants.talonEncoderResolution * 10 * Constants.swerveWheelDiam
+        * Constants.swerveDriveMotorGR;
     return encoderRate;
   }
 
-  public double getAngleRadians(){
+  /**
+   * @return double
+   */
+  public double getAngleRadians() {
     return Units.degreesToRadians(encoder.getAbsolutePosition());
   }
 
-  public void resetDriveEncoder(){
+  public void resetDriveEncoder() {
     speed_motor.setSelectedSensorPosition(0);
   }
 
-  public void setVoltageSpeed(double voltage){
+  /**
+   * @param voltage
+   */
+  public void setVoltageSpeed(double voltage) {
     speed_motor.setVoltage(voltage);
   }
 
-  public SwerveModuleConstants getConstants(){
+  /**
+   * @return SwerveModuleConstants
+   */
+  public SwerveModuleConstants getConstants() {
     return swerveModuleConstants;
   }
 
-  public SwerveModuleState getState(){
-    return new SwerveModuleState(getSpeedEncoderRate(),new Rotation2d(getAngleRadians()));
+  /**
+   * @return SwerveModuleState
+   */
+  public SwerveModuleState getState() {
+    return new SwerveModuleState(getSpeedEncoderRate(), new Rotation2d(getAngleRadians()));
   }
 
-  public SwerveModuleState optimize(
-    SwerveModuleState desiredState, Rotation2d currentAngle) {
-  var delta = desiredState.angle.minus(currentAngle);
-  if (Math.abs(delta.getDegrees()) > 90.0) {
-    return new SwerveModuleState(
-        -desiredState.speedMetersPerSecond,
-        desiredState.angle.rotateBy(Rotation2d.fromDegrees(180.0)));
-  } else {
-    return new SwerveModuleState(desiredState.speedMetersPerSecond, desiredState.angle);
+  /**
+   * @param desiredState
+   * @param currentAngle
+   * @return SwerveModuleState
+   */
+  public SwerveModuleState optimize(SwerveModuleState desiredState, Rotation2d currentAngle) {
+    var delta = desiredState.angle.minus(currentAngle);
+    if (Math.abs(delta.getDegrees()) > 90.0) {
+      return new SwerveModuleState(-desiredState.speedMetersPerSecond,
+          desiredState.angle.rotateBy(Rotation2d.fromDegrees(180.0)));
+    } else {
+      return new SwerveModuleState(desiredState.speedMetersPerSecond, desiredState.angle);
+    }
   }
-}
 
+  /**
+   * @param desiredState
+   */
+  public void setDesiredState(SwerveModuleState desiredState) {
 
-
-
-
-  public void setDesiredState(SwerveModuleState desiredState){
-
-    SwerveModuleState state =
-        optimize(desiredState, new Rotation2d(getAngleRadians()));
+    SwerveModuleState state = optimize(desiredState, new Rotation2d(getAngleRadians()));
 
     // Calculate the drive output from the drive PID controller.
-    final double driveOutput =
-        m_drivePIDController.calculate(getSpeedEncoderRate(), state.speedMetersPerSecond);
-
+    final double driveOutput = m_drivePIDController.calculate(getSpeedEncoderRate(), state.speedMetersPerSecond);
 
     final double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
 
-    
-
     // Calculate the turning motor output from the turning PID controller.
-    final double turnOutput =
-        m_turningPIDController.calculate(getAngleRadians(), state.angle.getRadians());
+    final double turnOutput = m_turningPIDController.calculate(getAngleRadians(), state.angle.getRadians());
 
-    final double turnFeedforward =
-        m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
+    final double turnFeedforward = m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
 
     speed_motor.setVoltage((driveOutput + driveFeedforward) * RobotController.getBatteryVoltage());
 
     angle_motor.setVoltage((turnOutput + turnFeedforward) * RobotController.getBatteryVoltage());
   }
 
-
 }
-

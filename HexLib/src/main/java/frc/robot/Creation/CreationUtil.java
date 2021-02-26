@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.Creation;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
@@ -15,6 +15,10 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 /** Add your docs here. */
 public class CreationUtil {
 
+    /**
+     * @param gyroType
+     * @return Gyro
+     */
     public static Gyro createGyro(String gyroType) {
         switch (gyroType) {
             case "navX":
@@ -28,6 +32,11 @@ public class CreationUtil {
 
     }
 
+    /**
+     * @param motorType
+     * @param CANID
+     * @return Object
+     */
     public static Object createMotor(String motorType, int CANID) {
         switch (motorType) {
             case "TalonFX":
