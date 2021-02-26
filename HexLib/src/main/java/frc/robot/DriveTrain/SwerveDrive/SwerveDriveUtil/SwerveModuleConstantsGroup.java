@@ -7,7 +7,7 @@ package frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil;
 /** Creates a group of SwerveModuleConstantsObjects */
 public class SwerveModuleConstantsGroup {
 
-    public SwerveModuleConstants frontLeftConstants, frontRightConstants, rearLeftConstants, rearRightConstants;
+    private SwerveModuleConstants frontLeftConstants, frontRightConstants, rearLeftConstants, rearRightConstants;
 
     public SwerveModuleConstantsGroup(SwerveModuleConstants frontLeftConstants, SwerveModuleConstants frontRightConstants, SwerveModuleConstants rearLeftConstants, SwerveModuleConstants rearRightConstants){
         this.frontLeftConstants = frontLeftConstants;
@@ -16,6 +16,18 @@ public class SwerveModuleConstantsGroup {
         this.rearLeftConstants = rearLeftConstants;
     }
 
-
+    public SwerveModuleConstants getRearLeftConstants(){
+        return rearLeftConstants;
+    }
+    public SwerveModuleConstants getFrontLeftConstants(){
+        return frontLeftConstants;
+    }
+    public SwerveModuleConstants getRearRightConstants(){
+        return rearRightConstants;
+    }
+    public SwerveModuleConstants getFrontRightConstants(){
+        return frontRightConstants;
+    }
+     
 
 }

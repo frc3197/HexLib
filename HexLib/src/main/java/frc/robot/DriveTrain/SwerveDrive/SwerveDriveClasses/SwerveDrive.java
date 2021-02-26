@@ -4,10 +4,8 @@
 
 package frc.robot.DriveTrain.SwerveDrive.SwerveDriveClasses;
 
-import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
@@ -26,28 +24,30 @@ public class SwerveDrive implements Subsystem {
     // Translation from the center of the bot, distance of the wheels to the center.
     private final Translation2d m_frontLeftLocation = new Translation2d(x,y);
     private final Translation2d m_frontRightLocation = new Translation2d(x,-y);
-    private final Translation2d m_backLeftLocation = new Translation2d(-x,y);
-    private final Translation2d m_backRightLocation = new Translation2d(-x,-y);
+    private final Translation2d m_rearLeftLocation = new Translation2d(-x,y);
+    private final Translation2d m_rearRightLocation = new Translation2d(-x,-y);
 
     // Creates 4 SwerveModule Objects
     public final SwerveModule m_frontRight;
     public final SwerveModule m_frontLeft;
-    public final SwerveModule m_backRight;
-    public final SwerveModule m_backLeft;
+    public final SwerveModule m_rearRight;
+    public final SwerveModule m_rearLeft;
 
-    public static AHRS gyro = new AHRS(Port.kUSB);
+    public static Gyro gyro;
 
     private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(m_frontLeftLocation,
-            m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
+            m_frontRightLocation, m_rearLeftLocation, m_rearRightLocation);
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, gyro.getRotation2d());
 
     @SuppressWarnings("static-access")
-    public SwerveDrive(SwerveModule backRight,SwerveModule backLeft,SwerveModule frontRight,SwerveModule frontLeft, SwerveBuilderConstants swerveBuilderConstants) {
+    public SwerveDrive(SwerveModule rearRight,SwerveModule rearLeft,SwerveModule frontRight,SwerveModule frontLeft, SwerveBuilderConstants swerveBuilderConstants, Gyro gyro) {
     m_frontRight = frontRight;
     m_frontLeft = frontLeft;
-    m_backRight = backRight;
-    m_backLeft = backLeft;
+    m_rearRight = rearRight;
+    m_rearLeft = rearLeft;
+
+    this.gyro = gyro;
 
     this.swerveBuilderConstants = swerveBuilderConstants;
 
@@ -69,8 +69,8 @@ public void periodic() {
         SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, maxSpeed);
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
-        m_backLeft.setDesiredState(swerveModuleStates[2]);
-        m_backRight.setDesiredState(swerveModuleStates[3]);
+        m_rearLeft.setDesiredState(swerveModuleStates[2]);
+        m_rearRight.setDesiredState(swerveModuleStates[3]);
       }
     
 //do things again 
@@ -79,8 +79,8 @@ public void periodic() {
             gyro.getRotation2d(),
             m_frontLeft.getState(),
             m_frontRight.getState(),
-            m_backLeft.getState(),
-            m_backRight.getState());
+            m_rearLeft.getState(),
+            m_rearRight.getState());
       }
 
     public void resetGyro(){
@@ -90,15 +90,15 @@ public void periodic() {
     public void resetEncoders(){
         m_frontLeft.resetDriveEncoder();
         m_frontRight.resetDriveEncoder();
-        m_backLeft.resetDriveEncoder();
-        m_backRight.resetDriveEncoder();
+        m_rearLeft.resetDriveEncoder();
+        m_rearRight.resetDriveEncoder();
     }
 
     public void setVoltageAllMotors(double speed){
 m_frontLeft.setVoltageSpeed(speed);        
 m_frontRight.setVoltageSpeed(speed);
-m_backLeft.setVoltageSpeed(speed);
-m_backRight.setVoltageSpeed(speed);
+m_rearLeft.setVoltageSpeed(speed);
+m_rearRight.setVoltageSpeed(speed);
 
     }
 

@@ -44,7 +44,7 @@ public class SwerveModule extends SubsystemBase {
   private final SimpleMotorFeedforward m_turnFeedforward;
 
   @SuppressWarnings("static-access")
-  public SwerveModule(SwerveModuleConstants swerveModuleConstants,SwerveBuilderConstants swerveBuilderConstants, boolean angleInverted, boolean speedInverted) {
+  public SwerveModule(SwerveModuleConstants swerveModuleConstants,SwerveBuilderConstants swerveBuilderConstants) {
     moduleNumber = numModule;
     numModule++;
     angle_motor = new WPI_TalonFX(swerveModuleConstants.getAngleID());
