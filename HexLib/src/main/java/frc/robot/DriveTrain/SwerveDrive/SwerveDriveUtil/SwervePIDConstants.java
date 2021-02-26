@@ -8,7 +8,7 @@
 */
 package frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil;
 
-/** Add your docs here. */
+/** A class created to store PID Constants */
 public class SwervePIDConstants {
 
     private double P, I, D, kS, kV;
@@ -23,6 +23,7 @@ public class SwervePIDConstants {
     }
 
     /**
+     * Gets the P value
      * @return double
      */
     public double getPID_P() {
@@ -30,6 +31,7 @@ public class SwervePIDConstants {
     }
 
     /**
+     * Gets the I Value
      * @return double
      */
     public double getPID_I() {
@@ -37,6 +39,7 @@ public class SwervePIDConstants {
     }
 
     /**
+     * Gets the D Value
      * @return double
      */
     public double getPID_D() {
@@ -44,6 +47,7 @@ public class SwervePIDConstants {
     }
 
     /**
+     * Gets the kS Value
      * @return double
      */
     public double getPID_kS() {
@@ -51,6 +55,7 @@ public class SwervePIDConstants {
     }
 
     /**
+     * Gets the kV Value
      * @return double
      */
     public double getPID_kV() {

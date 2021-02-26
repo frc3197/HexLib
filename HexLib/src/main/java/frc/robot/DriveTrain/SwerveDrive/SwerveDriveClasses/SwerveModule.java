@@ -9,7 +9,7 @@
 */
 package frc.robot.DriveTrain.SwerveDrive.SwerveDriveClasses;
 
-/** Add your docs here. */
+/** Creates a Swerve Module Object */
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -32,17 +32,13 @@ public class SwerveModule extends SubsystemBase {
   private static SwerveBuilderConstants swerveBuilderConstants;
 
   private static final double kModuleMaxAngularVelocity = swerveBuilderConstants.getMaxAngleSpeed();
-  private static final double kModuleMaxAngularAcceleration = swerveBuilderConstants.getMaxAngleAcceleration(); // radians
-                                                                                                                // per
-                                                                                                                // second
-                                                                                                                // squared
+  private static final double kModuleMaxAngularAcceleration = swerveBuilderConstants.getMaxAngleAcceleration();
+
 
   private final WPI_TalonFX speed_motor;
   private final WPI_TalonFX angle_motor;
 
   private SwerveModuleConstants swerveModuleConstants;
-  static int numModule = 0;
-  final int moduleNumber;
   private final CANCoder encoder;
   private PIDController m_drivePIDController;
 
@@ -53,8 +49,6 @@ public class SwerveModule extends SubsystemBase {
 
   @SuppressWarnings("static-access")
   public SwerveModule(SwerveModuleConstants swerveModuleConstants, SwerveBuilderConstants swerveBuilderConstants) {
-    moduleNumber = numModule;
-    numModule++;
     angle_motor = new WPI_TalonFX(swerveModuleConstants.getAngleID());
     speed_motor = new WPI_TalonFX(swerveModuleConstants.getSpeedID());
     this.swerveModuleConstants = swerveModuleConstants;
@@ -93,6 +87,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   /**
+   * Returns the RPM of the SpeedMotor
    * @return double
    */
   public double getRPM() {
@@ -100,6 +95,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   /**
+   * Returns the Encoder Velocity in Meters/Sec
    * @return double
    */
   public double getSpeedEncoderRate() {
@@ -112,17 +108,21 @@ public class SwerveModule extends SubsystemBase {
   }
 
   /**
+   * Returns the current position of the angle motor in radians
    * @return double
    */
   public double getAngleRadians() {
     return Units.degreesToRadians(encoder.getAbsolutePosition());
   }
-
+  /**
+   * Resets the Encoder of the Drive motor to 0
+   */
   public void resetDriveEncoder() {
     speed_motor.setSelectedSensorPosition(0);
   }
 
   /**
+   * Sets the voltage of the Motor
    * @param voltage
    */
   public void setVoltageSpeed(double voltage) {
@@ -130,6 +130,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   /**
+   * Returns the Constants of the module
    * @return SwerveModuleConstants
    */
   public SwerveModuleConstants getConstants() {
@@ -137,6 +138,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   /**
+   * Returns the State of the module
    * @return SwerveModuleState
    */
   public SwerveModuleState getState() {
@@ -144,6 +146,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   /**
+   * Returns the optimized SwerveModuleState to make all movements under 90 degrees
    * @param desiredState
    * @param currentAngle
    * @return SwerveModuleState
@@ -159,6 +162,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   /**
+   * Sets the desired state of the SwerveModule
    * @param desiredState
    */
   public void setDesiredState(SwerveModuleState desiredState) {

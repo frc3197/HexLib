@@ -19,9 +19,8 @@ import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
 
 /** Represents a swerve drive style drivetrain. */
 public class SwerveDrive implements Subsystem {
-    public static SwerveBuilderConstants swerveBuilderConstants;
-    public static double maxSpeed = Units.feetToMeters(swerveBuilderConstants.getMaxDriveSpeed());
-    public static double maxAngleSpeed = swerveBuilderConstants.getMaxAngleSpeed();
+    private static SwerveBuilderConstants swerveBuilderConstants;
+    private static double maxSpeed = swerveBuilderConstants.getMaxDriveSpeed();
 
     private double x = Units.inchesToMeters(swerveBuilderConstants.getWidth() / 2);
     private double y = Units.inchesToMeters(swerveBuilderConstants.getLength() / 2);
@@ -32,16 +31,19 @@ public class SwerveDrive implements Subsystem {
     private final Translation2d m_rearRightLocation = new Translation2d(-x, -y);
 
     // Creates 4 SwerveModule Objects
-    public final SwerveModule m_frontRight;
-    public final SwerveModule m_frontLeft;
-    public final SwerveModule m_rearRight;
-    public final SwerveModule m_rearLeft;
+    private final SwerveModule m_frontRight;
+    private final SwerveModule m_frontLeft;
+    private final SwerveModule m_rearRight;
+    private final SwerveModule m_rearLeft;
 
-    public static Gyro gyro;
+    // Creates a Generic Gyro object
+    private static Gyro gyro;
 
+    // Creates a SwerveDriveKinematics object
     private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(m_frontLeftLocation,
             m_frontRightLocation, m_rearLeftLocation, m_rearRightLocation);
 
+    // Creates a SwerveDriveOdometry
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, gyro.getRotation2d());
 
     @SuppressWarnings("static-access")
@@ -66,12 +68,12 @@ public class SwerveDrive implements Subsystem {
     }
 
     /**
+     * Function used to drive the bot
      * @param xSpeed
      * @param ySpeed
      * @param rot
      * @param fieldRelative
      */
-    // drive command
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, gyro.getRotation2d())
@@ -83,16 +85,22 @@ public class SwerveDrive implements Subsystem {
         m_rearRight.setDesiredState(swerveModuleStates[3]);
     }
 
-    // do things again
+   /**
+   * Updates the state and position of Robot
+   */
     public void updateOdometry() {
         m_odometry.update(gyro.getRotation2d(), m_frontLeft.getState(), m_frontRight.getState(), m_rearLeft.getState(),
                 m_rearRight.getState());
     }
-
+    /**
+     * Resets the Gyro
+     */
     public void resetGyro() {
         gyro.reset();
     }
-
+    /**
+     * Resets the Encoders
+     */
     public void resetEncoders() {
         m_frontLeft.resetDriveEncoder();
         m_frontRight.resetDriveEncoder();
@@ -101,6 +109,7 @@ public class SwerveDrive implements Subsystem {
     }
 
     /**
+     * Sets the Voltage of All the Motors
      * @param speed
      */
     public void setVoltageAllMotors(double speed) {

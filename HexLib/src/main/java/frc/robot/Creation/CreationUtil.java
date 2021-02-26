@@ -17,10 +17,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
-/** Add your docs here. */
+/** Utilities for creating an object based on a String given */
 public class CreationUtil {
 
     /**
+     * Creates a Gyro based on the String given
+     * Options:
+     * "navX" for the navX gyro 
+     * "ADXRS450_Gyro" for the ADXRS450_Gyro 
      * @param gyroType
      * @return Gyro
      */
@@ -38,6 +42,10 @@ public class CreationUtil {
     }
 
     /**
+     * Creates a motor based on the String given
+     * Options: 
+     * "TalonFX" for the TalonFX motorController used on the Falcon 500s
+     * "CANSparkMax" for the CANSparkMax motorController used on the Neo, Neo 550, etc.
      * @param motorType
      * @param CANID
      * @return Object
