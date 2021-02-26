@@ -7,7 +7,9 @@ package frc.robot.DriveTrain.SwerveDrive.SwerveDriveClasses;
 public class Constants {
 
 	private static final double talonEncoderResolution = 2048;
-	private static final double swerveWheelDiam = 0;
-	private static final double swerveDriveMotorGR = 7.86;
+
+	public static double getTalonEncoderResolution(){
+		return talonEncoderResolution;
+	}
 
 }

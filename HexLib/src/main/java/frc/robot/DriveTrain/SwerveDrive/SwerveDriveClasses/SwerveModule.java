@@ -91,7 +91,7 @@ public class SwerveModule extends SubsystemBase {
    * @return double
    */
   public double getRPM() {
-    return speed_motor.getSelectedSensorVelocity() / Constants.talonEncoderResolution * 10 * 60;
+    return speed_motor.getSelectedSensorVelocity() / Constants.getTalonEncoderResolution() * 10 * 60;
   }
 
   /**
@@ -102,8 +102,8 @@ public class SwerveModule extends SubsystemBase {
     // Pulls the integrated sensor velocity
     double driveUnitsPer100ms = angle_motor.getSelectedSensorVelocity();
     // Converts the encoder rate to meters per second
-    double encoderRate = driveUnitsPer100ms / Constants.talonEncoderResolution * 10 * Constants.swerveWheelDiam
-        * Constants.swerveDriveMotorGR;
+    double encoderRate = driveUnitsPer100ms / Constants.getTalonEncoderResolution() * 10 * swerveBuilderConstants.getWheelDiam()
+        * swerveBuilderConstants.getDriveGearRatio();
     return encoderRate;
   }
 
