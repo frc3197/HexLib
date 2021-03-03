@@ -7,7 +7,7 @@
 * @author Yuri Kleyman - FRC 3197 2021
 * @version 1.0.0
 */
-package frc.robot.DriveTrain.SwerveDrive.SwerveDriveClasses;
+package frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveClasses;
 
 /** Creates a Swerve Module Object */
 
@@ -24,8 +24,8 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
-import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstants;
+import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
+import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstants;
 
 public class SwerveModule extends SubsystemBase {
   // Measurments are all done in Meters.

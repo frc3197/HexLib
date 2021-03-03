@@ -7,7 +7,7 @@
 * @author Yuri Kleyman - FRC 3197 2021
 * @version 1.0.0
 */
-package frc.robot.Creation;
+package frc.robot.HexLib.Creation;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;

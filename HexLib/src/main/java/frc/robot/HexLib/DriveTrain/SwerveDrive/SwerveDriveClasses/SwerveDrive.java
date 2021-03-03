@@ -6,7 +6,7 @@
 * @author Yuri Kleyman - FRC 3197 2021
 * @version 1.0.0
 */
-package frc.robot.DriveTrain.SwerveDrive.SwerveDriveClasses;
+package frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveClasses;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
+import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
 
 /** Represents a swerve drive style drivetrain. */
 public class SwerveDrive implements Subsystem {
