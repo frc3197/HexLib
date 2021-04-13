@@ -69,6 +69,7 @@ public class SwerveDrive implements Subsystem {
 
     /**
      * Function used to drive the bot
+     * 
      * @param xSpeed
      * @param ySpeed
      * @param rot
@@ -85,19 +86,21 @@ public class SwerveDrive implements Subsystem {
         m_rearRight.setDesiredState(swerveModuleStates[3]);
     }
 
-   /**
-   * Updates the state and position of Robot
-   */
+    /**
+     * Updates the state and position of Robot
+     */
     public void updateOdometry() {
         m_odometry.update(gyro.getRotation2d(), m_frontLeft.getState(), m_frontRight.getState(), m_rearLeft.getState(),
                 m_rearRight.getState());
     }
+
     /**
      * Resets the Gyro
      */
     public void resetGyro() {
         gyro.reset();
     }
+
     /**
      * Resets the Encoders
      */
@@ -110,6 +113,7 @@ public class SwerveDrive implements Subsystem {
 
     /**
      * Sets the Voltage of All the Motors
+     * 
      * @param speed
      */
     public void setVoltageAllMotors(double speed) {

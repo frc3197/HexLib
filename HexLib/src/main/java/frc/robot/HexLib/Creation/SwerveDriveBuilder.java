@@ -30,20 +30,22 @@ public class SwerveDriveBuilder {
         private double width;
 
         public SwerveDriveBuilder(SwerveModuleConstantsGroup swerveModuleConstantsGroup,
-                        SwerveBuilderConstants swerveBuilderConstants, String gyroType, String motorType, double length,
-                        double width) {
+                        SwerveBuilderConstants swerveBuilderConstants, String gyroType
+        // , String motorType
+        ) {
                 this.swerveModuleConstantsGroup = swerveModuleConstantsGroup;
                 this.swerveBuilderConstants = swerveBuilderConstants;
 
                 this.gyroType = gyroType;
-                this.motorType = motorType;
+                // this.motorType = motorType;
 
-                this.length = length;
-                this.width = width;
+                this.length = swerveBuilderConstants.getLength();
+                this.width = swerveBuilderConstants.getWidth();
         }
 
         /**
          * Builds a SwerveDrive Object using all of the other Utils and Constants
+         * 
          * @param swerveDriveBuilder
          * @return SwerveDrive
          */
@@ -72,18 +74,18 @@ public class SwerveDriveBuilder {
                 return swerveDrive;
         }
 
-        
-        /** 
+        /**
          * Get the length of the SwerveDrive
+         * 
          * @return double
          */
         public double getLength() {
                 return length;
         }
 
-        
-        /** 
+        /**
          * Get the width of the SwerveDrive
+         * 
          * @return double
          */
         public double getWidth() {
@@ -91,36 +93,36 @@ public class SwerveDriveBuilder {
 
         }
 
-        
-        /** 
+        /**
          * Get the String containing the GyroType
+         * 
          * @return String
          */
         public String getGyroType() {
                 return gyroType;
         }
 
-        
-        /** 
+        /**
          * Get the String containing the MotorType
+         * 
          * @return String
          */
         public String getMotorType() {
                 return motorType;
         }
 
-        
-        /** 
+        /**
          * Get the swerveBuilderConstants Object
+         * 
          * @return SwerveBuilderConstants
          */
         public SwerveBuilderConstants getSwerveBuilderConstants() {
                 return swerveBuilderConstants;
         }
 
-        
-        /** 
+        /**
          * Get the swerveModuleConstantsGroup Object
+         * 
          * @return SwerveModuleConstantsGroup
          */
         public SwerveModuleConstantsGroup getSwerveModuleConstantsGroup() {

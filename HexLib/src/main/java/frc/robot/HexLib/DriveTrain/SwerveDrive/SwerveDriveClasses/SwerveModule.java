@@ -30,10 +30,10 @@ import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConst
 
 public class SwerveModule extends SubsystemBase {
   // Measurments are all done in Meters.
-  private static SwerveBuilderConstants swerveBuilderConstants;
+  private SwerveBuilderConstants swerveBuilderConstants;
 
-  private static final double kModuleMaxAngularVelocity = swerveBuilderConstants.getMaxAngleSpeed();
-  private static final double kModuleMaxAngularAcceleration = swerveBuilderConstants.getMaxAngleAcceleration();
+  private static double kModuleMaxAngularVelocity;
+  private static double kModuleMaxAngularAcceleration;
 
   private final SpeedController speed_motor;
   private final SpeedController angle_motor;
@@ -47,20 +47,21 @@ public class SwerveModule extends SubsystemBase {
   private final SimpleMotorFeedforward m_driveFeedforward;
   private final SimpleMotorFeedforward m_turnFeedforward;
 
-  @SuppressWarnings("static-access")
   public SwerveModule(SwerveModuleConstants swerveModuleConstants, SwerveBuilderConstants swerveBuilderConstants) {
     this.swerveModuleConstants = swerveModuleConstants;
     this.swerveBuilderConstants = swerveBuilderConstants;
 
     angle_motor = CreationUtil.createMotor(swerveBuilderConstants.getAngleMotorType(),
-        swerveModuleConstants.getAngleID(), swerveBuilderConstants.getBrakeMode(),
-        SwerveModule.swerveBuilderConstants.getRampRate(), swerveModuleConstants.getAngleInverted());
+        swerveModuleConstants.getAngleID(), swerveBuilderConstants.getAngleBrakeMode(),
+        swerveBuilderConstants.getRampRate(), swerveModuleConstants.getAngleInverted());
     speed_motor = CreationUtil.createMotor(swerveBuilderConstants.getDriveMotorType(),
-        swerveModuleConstants.getSpeedID(), swerveBuilderConstants.getBrakeMode(),
-        SwerveModule.swerveBuilderConstants.getRampRate(), swerveModuleConstants.getSpeedInverted());
+        swerveModuleConstants.getSpeedID(), swerveBuilderConstants.getDriveBrakeMode(),
+        swerveBuilderConstants.getRampRate(), swerveModuleConstants.getSpeedInverted());
 
     // angle_motor = new WPI_TalonFX(swerveModuleConstants.getAngleID());
     // speed_motor = new WPI_TalonFX(swerveModuleConstants.getSpeedID());
+    kModuleMaxAngularVelocity = swerveBuilderConstants.getMaxAngleSpeed();
+    kModuleMaxAngularAcceleration = swerveBuilderConstants.getMaxAngleAcceleration();
 
     m_turningPIDController = new ProfiledPIDController(swerveModuleConstants.getPID_P_Angle(),
         swerveModuleConstants.getPID_I_Angle(), swerveModuleConstants.getPID_D_Angle(),
@@ -139,11 +140,10 @@ public class SwerveModule extends SubsystemBase {
    * Resets the Encoder of the Drive motor to 0
    */
   public void resetDriveEncoder() {
-    if(speed_motor instanceof WPI_TalonFX){
-      ((WPI_TalonFX)speed_motor).setSelectedSensorPosition(0);
-    }
-    else{
-      ((CANSparkMax)speed_motor).getEncoder().setPosition(0);
+    if (speed_motor instanceof WPI_TalonFX) {
+      ((WPI_TalonFX) speed_motor).setSelectedSensorPosition(0);
+    } else {
+      ((CANSparkMax) speed_motor).getEncoder().setPosition(0);
     }
 
   }

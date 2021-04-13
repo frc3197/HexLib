@@ -23,14 +23,16 @@ public class SwerveBuilderConstants {
 
     private SpeedController angleMotorType, driveMotorType;
 
-    private Object brakeMode;
+    private Object driveBrakeMode, angleBrakeMode;
 
     public SwerveBuilderConstants(double length, double width, double maxAngleSpeed, double maxAngleAcceleration,
-            double maxDriveSpeed, double rampRate, double swerveWheelDiam, double swerveDriveMotorGearRatio,Object brakeMode,
-            SpeedController driveMotorType, SpeedController angleMotorType) {
+            double maxDriveSpeed, double rampRate, double swerveWheelDiam, double swerveDriveMotorGearRatio,
+            Object driveBrakeMode, Object angleBrakeMode, SpeedController driveMotorType,
+            SpeedController angleMotorType) {
         this.length = length;
         this.width = width;
-        this.brakeMode = brakeMode;
+        this.driveBrakeMode = driveBrakeMode;
+        this.angleBrakeMode = angleBrakeMode;
         this.maxAngleSpeed = maxAngleSpeed;
         this.maxAngleAcceleration = maxAngleAcceleration;
         this.maxDriveSpeed = maxDriveSpeed;
@@ -130,12 +132,23 @@ public class SwerveBuilderConstants {
     public SpeedController getAngleMotorType() {
         return angleMotorType;
     }
+
     /**
      * Returns the brakeMode of all the motors
+     * 
      * @return Object
      */
-    public Object getBrakeMode(){
-        return brakeMode;
+    public Object getDriveBrakeMode() {
+        return driveBrakeMode;
+    }
+
+    /**
+     * Returns the brakeMode of all the motors
+     * 
+     * @return Object
+     */
+    public Object getAngleBrakeMode() {
+        return angleBrakeMode;
     }
 
 }

@@ -65,8 +65,8 @@ public class CreationUtil {
     }
 
     /**
-     * Creates a motor based on the SpeedControllerObject type given
-     * Supported Options: TalonFX, CANSparkMax
+     * Creates a motor based on the SpeedControllerObject type given Supported
+     * Options: TalonFX, CANSparkMax
      * 
      * @param motorType
      * @param CANID
@@ -74,9 +74,10 @@ public class CreationUtil {
      */
     public static SpeedController createMotor(SpeedController speedController, int CANID) {
         if (speedController instanceof WPI_TalonFX) {
-
+            // ((WPI_TalonFX)speedController).free();
             return new WPI_TalonFX(CANID);
         } else if (speedController instanceof CANSparkMax) {
+
             return new CANSparkMax(CANID, MotorType.kBrushless);
         } else {
             return null;
@@ -84,10 +85,10 @@ public class CreationUtil {
 
     }
 
-    
-    /** 
-     * Creates a motor based on the SpeedControllerObject type given and sets up motor parameters
-     * Supported Options: TalonFX, CANSparkMax
+    /**
+     * Creates a motor based on the SpeedControllerObject type given and sets up
+     * motor parameters Supported Options: TalonFX, CANSparkMax
+     * 
      * @param speedController
      * @param CANID
      * @param brakeMode
@@ -95,6 +96,7 @@ public class CreationUtil {
      * @param inverted
      * @return SpeedController
      */
+
     @SuppressWarnings({ "resource" })
     public static SpeedController createMotor(SpeedController speedController, int CANID, Object brakeMode,
             double rampRate, boolean inverted) {
@@ -109,9 +111,10 @@ public class CreationUtil {
         }
     }
 
-    
-    /** 
-     * The purpose of the function is to run the setup methods for the WPI_TalonFX motor and return it
+    /**
+     * The purpose of the function is to run the setup methods for the WPI_TalonFX
+     * motor and return it
+     * 
      * @param motor
      * @param brakeMode
      * @param rampRate
@@ -126,9 +129,10 @@ public class CreationUtil {
         return motor;
     }
 
-    
-    /** 
-     * The purpose of the function is to run the setup methods for the CANSparkMax motor and return it
+    /**
+     * The purpose of the function is to run the setup methods for the CANSparkMax
+     * motor and return it
+     * 
      * @param motor
      * @param brakeMode
      * @param rampRate
