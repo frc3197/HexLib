@@ -8,7 +8,7 @@
 * The purpose of this class is to store multiple SwerveModuleConstants objects in order to condense the amount of constants needed for SwerveDriveBuilder creation.
 */
 
-package frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil;
+package frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil;
 
 /** Creates a group of SwerveModuleConstantsObjects */
 public class SwerveModuleConstantsGroup {

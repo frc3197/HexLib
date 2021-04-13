@@ -6,17 +6,17 @@
 * @author Yuri Kleyman - FRC 3197 2021
 * @version 1.0.0
 */
-package frc.robot.Creation;
+package frc.robot.HexLib.Creation;
 
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 //import frc.robot.Creation.CreationUtil;
 
-import frc.robot.DriveTrain.SwerveDrive.SwerveDriveClasses.SwerveDrive;
-import frc.robot.DriveTrain.SwerveDrive.SwerveDriveClasses.SwerveModule;
-import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
-import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstants;
-import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstantsGroup;
+import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveClasses.SwerveDrive;
+import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveClasses.SwerveModule;
+import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
+import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstants;
+import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstantsGroup;
 
 /** Class using all of the other SwerveUtilities to build a SwerveDrive Obj */
 public class SwerveDriveBuilder {
