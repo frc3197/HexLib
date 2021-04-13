@@ -8,6 +8,8 @@
 */
 package frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil;
 
+import edu.wpi.first.wpilibj.SpeedController;
+
 /** This Class stores Constants for the SwerveDriveBuilder */
 public class SwerveBuilderConstants {
     /**
@@ -19,16 +21,24 @@ public class SwerveBuilderConstants {
     private double length, width, maxAngleSpeed, maxAngleAcceleration, maxDriveSpeed, rampRate, swerveWheelDiam,
             swerveDriveMotorGearRatio;
 
+    private SpeedController angleMotorType, driveMotorType;
+
+    private Object brakeMode;
+
     public SwerveBuilderConstants(double length, double width, double maxAngleSpeed, double maxAngleAcceleration,
-            double maxDriveSpeed, double rampRate, double swerveWheelDiam, double swerveDriveMotorGearRatio) {
+            double maxDriveSpeed, double rampRate, double swerveWheelDiam, double swerveDriveMotorGearRatio,Object brakeMode,
+            SpeedController driveMotorType, SpeedController angleMotorType) {
         this.length = length;
         this.width = width;
+        this.brakeMode = brakeMode;
         this.maxAngleSpeed = maxAngleSpeed;
         this.maxAngleAcceleration = maxAngleAcceleration;
         this.maxDriveSpeed = maxDriveSpeed;
         this.rampRate = rampRate;
         this.swerveDriveMotorGearRatio = swerveDriveMotorGearRatio;
         this.swerveWheelDiam = swerveWheelDiam;
+        this.driveMotorType = driveMotorType;
+        this.angleMotorType = angleMotorType;
     }
 
     /**
@@ -101,6 +111,31 @@ public class SwerveBuilderConstants {
      */
     public double getDriveGearRatio() {
         return swerveDriveMotorGearRatio;
+    }
+
+    /**
+     * Get the Motor Type of the Drive Motor
+     * 
+     * @return SpeedController
+     */
+    public SpeedController getDriveMotorType() {
+        return driveMotorType;
+    }
+
+    /**
+     * Get the Motor Type of the Angle Motor
+     * 
+     * @return SpeedController
+     */
+    public SpeedController getAngleMotorType() {
+        return angleMotorType;
+    }
+    /**
+     * Returns the brakeMode of all the motors
+     * @return Object
+     */
+    public Object getBrakeMode(){
+        return brakeMode;
     }
 
 }

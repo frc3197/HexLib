@@ -2,7 +2,6 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-
 /** 
 * @author Yuri Kleyman - FRC 3197 2021
 * @version 1.0.0
@@ -11,11 +10,12 @@ package frc.robot.DriveTrain.SwerveDrive.SwerveDriveClasses;
 
 /** Creates a Swerve Module Object */
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Creation.CreationUtil;
 import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
 import frc.robot.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstants;
 
@@ -34,9 +35,8 @@ public class SwerveModule extends SubsystemBase {
   private static final double kModuleMaxAngularVelocity = swerveBuilderConstants.getMaxAngleSpeed();
   private static final double kModuleMaxAngularAcceleration = swerveBuilderConstants.getMaxAngleAcceleration();
 
-
-  private final WPI_TalonFX speed_motor;
-  private final WPI_TalonFX angle_motor;
+  private final SpeedController speed_motor;
+  private final SpeedController angle_motor;
 
   private SwerveModuleConstants swerveModuleConstants;
   private final CANCoder encoder;
@@ -49,10 +49,18 @@ public class SwerveModule extends SubsystemBase {
 
   @SuppressWarnings("static-access")
   public SwerveModule(SwerveModuleConstants swerveModuleConstants, SwerveBuilderConstants swerveBuilderConstants) {
-    angle_motor = new WPI_TalonFX(swerveModuleConstants.getAngleID());
-    speed_motor = new WPI_TalonFX(swerveModuleConstants.getSpeedID());
     this.swerveModuleConstants = swerveModuleConstants;
     this.swerveBuilderConstants = swerveBuilderConstants;
+
+    angle_motor = CreationUtil.createMotor(swerveBuilderConstants.getAngleMotorType(),
+        swerveModuleConstants.getAngleID(), swerveBuilderConstants.getBrakeMode(),
+        SwerveModule.swerveBuilderConstants.getRampRate(), swerveModuleConstants.getAngleInverted());
+    speed_motor = CreationUtil.createMotor(swerveBuilderConstants.getDriveMotorType(),
+        swerveModuleConstants.getSpeedID(), swerveBuilderConstants.getBrakeMode(),
+        SwerveModule.swerveBuilderConstants.getRampRate(), swerveModuleConstants.getSpeedInverted());
+
+    // angle_motor = new WPI_TalonFX(swerveModuleConstants.getAngleID());
+    // speed_motor = new WPI_TalonFX(swerveModuleConstants.getSpeedID());
 
     m_turningPIDController = new ProfiledPIDController(swerveModuleConstants.getPID_P_Angle(),
         swerveModuleConstants.getPID_I_Angle(), swerveModuleConstants.getPID_D_Angle(),
@@ -67,13 +75,6 @@ public class SwerveModule extends SubsystemBase {
         swerveModuleConstants.getFF_kS_Angle());
     encoder = new CANCoder(swerveModuleConstants.getEncoderID());
 
-    angle_motor.configOpenloopRamp(swerveBuilderConstants.getRampRate());
-    speed_motor.configOpenloopRamp(swerveBuilderConstants.getRampRate());
-    angle_motor.setNeutralMode(NeutralMode.Brake);
-    speed_motor.setNeutralMode(NeutralMode.Brake);
-
-    angle_motor.setInverted(swerveModuleConstants.getAngleInverted());
-    speed_motor.setInverted(swerveModuleConstants.getSpeedInverted());
     m_turningPIDController.setTolerance(0);
     m_drivePIDController.setTolerance(3);
     m_turningPIDController.enableContinuousInput(-Math.PI, Math.PI);
@@ -88,41 +89,68 @@ public class SwerveModule extends SubsystemBase {
 
   /**
    * Returns the RPM of the SpeedMotor
+   * 
    * @return double
    */
   public double getRPM() {
-    return speed_motor.getSelectedSensorVelocity() / Constants.getTalonEncoderResolution() * 10 * 60;
+    if (speed_motor instanceof WPI_TalonFX) {
+      // By default the WPI_TalonFX returns 2048 ticks per 100 ms
+      return ((WPI_TalonFX) speed_motor).getSelectedSensorVelocity() / Constants.getTalonEncoderResolution() * 10 * 60;
+    } else {
+      // By default the CANSparkMax returns RPM by default
+      return ((CANSparkMax) speed_motor).getEncoder().getVelocity();
+
+    }
   }
 
   /**
    * Returns the Encoder Velocity in Meters/Sec
+   * 
    * @return double
    */
   public double getSpeedEncoderRate() {
-    // Pulls the integrated sensor velocity
-    double driveUnitsPer100ms = angle_motor.getSelectedSensorVelocity();
-    // Converts the encoder rate to meters per second
-    double encoderRate = driveUnitsPer100ms / Constants.getTalonEncoderResolution() * 10 * swerveBuilderConstants.getWheelDiam()
-        * swerveBuilderConstants.getDriveGearRatio();
+    double driveUnitsPer100ms, encoderRate, driveRPM;
+    if (angle_motor instanceof WPI_TalonFX) {
+      // Pulls the integrated sensor velocity
+      driveUnitsPer100ms = ((WPI_TalonFX) angle_motor).getSelectedSensorVelocity();
+      // Converts the encoder rate to meters per second
+      encoderRate = driveUnitsPer100ms / Constants.getTalonEncoderResolution() * 10
+          * swerveBuilderConstants.getWheelDiam() * swerveBuilderConstants.getDriveGearRatio();
+    } else {
+      // Pulls the integrated sensor velocity
+      driveRPM = ((CANSparkMax) angle_motor).getEncoder().getVelocity();
+      // Converts the encoder rate to meters per second
+      encoderRate = driveRPM / 60 * swerveBuilderConstants.getWheelDiam() * swerveBuilderConstants.getDriveGearRatio();
+    }
+
     return encoderRate;
   }
 
   /**
    * Returns the current position of the angle motor in radians
+   * 
    * @return double
    */
   public double getAngleRadians() {
     return Units.degreesToRadians(encoder.getAbsolutePosition());
   }
+
   /**
    * Resets the Encoder of the Drive motor to 0
    */
   public void resetDriveEncoder() {
-    speed_motor.setSelectedSensorPosition(0);
+    if(speed_motor instanceof WPI_TalonFX){
+      ((WPI_TalonFX)speed_motor).setSelectedSensorPosition(0);
+    }
+    else{
+      ((CANSparkMax)speed_motor).getEncoder().setPosition(0);
+    }
+
   }
 
   /**
    * Sets the voltage of the Motor
+   * 
    * @param voltage
    */
   public void setVoltageSpeed(double voltage) {
@@ -131,6 +159,7 @@ public class SwerveModule extends SubsystemBase {
 
   /**
    * Returns the Constants of the module
+   * 
    * @return SwerveModuleConstants
    */
   public SwerveModuleConstants getConstants() {
@@ -139,6 +168,7 @@ public class SwerveModule extends SubsystemBase {
 
   /**
    * Returns the State of the module
+   * 
    * @return SwerveModuleState
    */
   public SwerveModuleState getState() {
@@ -146,7 +176,9 @@ public class SwerveModule extends SubsystemBase {
   }
 
   /**
-   * Returns the optimized SwerveModuleState to make all movements under 90 degrees
+   * Returns the optimized SwerveModuleState to make all movements under 90
+   * degrees
+   * 
    * @param desiredState
    * @param currentAngle
    * @return SwerveModuleState
@@ -163,6 +195,7 @@ public class SwerveModule extends SubsystemBase {
 
   /**
    * Sets the desired state of the SwerveModule
+   * 
    * @param desiredState
    */
   public void setDesiredState(SwerveModuleState desiredState) {
