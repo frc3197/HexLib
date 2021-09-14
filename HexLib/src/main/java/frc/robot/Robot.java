@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
       NeutralMode.Brake, IdleMode.kBrake, new WPI_TalonFX(0), new CANSparkMax(0, MotorType.kBrushless));
 
   SwerveDriveBuilder swerveDriveBuilder = new SwerveDriveBuilder(swerveModuleConstantsGroup, swerveBuilderConstants,
-      "NavX");
+      "navX");
 
   SwerveDrive swerveDrive = SwerveDriveBuilder.buildSwerve(swerveDriveBuilder);
 
