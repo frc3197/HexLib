@@ -37,6 +37,7 @@ public class CreationUtil {
             case "ADXRS450_Gyro":
                 return new ADXRS450_Gyro(edu.wpi.first.wpilibj.SPI.Port.kMXP);
             default:
+                System.out.println("Error: Failed Creation - Invalid String Gyro Type");
                 return null;
         }
 
@@ -60,6 +61,7 @@ public class CreationUtil {
                 return new CANSparkMax(CANID, MotorType.kBrushless);
 
             default:
+                System.out.println("Error: Failed Creation - Invalid String Motor Type");
                 return null;
         }
     }
@@ -80,6 +82,7 @@ public class CreationUtil {
 
             return new CANSparkMax(CANID, MotorType.kBrushless);
         } else {
+            System.out.println("Error: Failed Creation - Invalid Object Motor Type");
             return null;
         }
 
@@ -107,6 +110,7 @@ public class CreationUtil {
             return setupCANSparkMax(new CANSparkMax(CANID, MotorType.kBrushless), (IdleMode) brakeMode, rampRate,
                     inverted);
         } else {
+            System.out.println("Error: Failed Creation - Invalid Type");
             return null;
         }
     }
