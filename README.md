@@ -21,3 +21,7 @@ SwerveDrive swerveDrive = SwerveDriveBuilder.buildSwerve(swerveDriveBuilder);
 
 From there you just create the prerequisite objects and pass it into the function as a parameter.
 
+Note: Please be careful with what you pass into the creation methods.
+
+For Future Members: This will likely be outdated in someways at some point. Whether the syntax changes slightly, or you need to add new motor types. Feel free to contribute and keep it updated.
+
