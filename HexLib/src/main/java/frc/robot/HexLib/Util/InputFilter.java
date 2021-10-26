@@ -12,6 +12,12 @@ public class InputFilter {
         this.input = input;
     }
 
+    
+    /** 
+     * Returns the filtered input using the given deadzone
+     * @param deadzone
+     * @return double
+     */
     public double getFiltered(double deadzone) {
         if (input > deadzone || input < -deadzone) {
             return input;

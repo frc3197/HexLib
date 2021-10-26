@@ -11,19 +11,41 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 public class FilteredController {
     private XboxController controller;
 
-    public FilteredController(XboxController controller){
+    public FilteredController(XboxController controller) {
         this.controller = controller;
     }
+
     
-    public double getX(Hand hand, double deadzone){
+    /** 
+     * Gets the filtered X input for the given stick.
+     * @param hand
+     * @param deadzone
+     * @return double
+     */
+    public double getX(Hand hand, double deadzone) {
         return new InputFilter(controller.getX(hand)).getFiltered(deadzone);
     }
 
-    public double getY(Hand hand, double deadzone){
+    
+    /** 
+     * Gets the filtered Y input for the given stick.
+     * @param hand
+     * @param deadzone
+     * @return double
+     */
+    public double getY(Hand hand, double deadzone) {
         return new InputFilter(controller.getY(hand)).getFiltered(deadzone);
     }
 
-    public double getTrigger(Hand hand, double deadzone){
+    
+    /** 
+     * Gets the filtered trigger input for the given trigger.
+     * @param hand
+     * @param deadzone
+     * @return double
+     */
+    public double getTrigger(Hand hand, double deadzone) {
         return new InputFilter(controller.getTriggerAxis(hand)).getFiltered(deadzone);
     }
+
 }
