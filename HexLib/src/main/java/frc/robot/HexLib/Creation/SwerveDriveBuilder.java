@@ -8,9 +8,15 @@
 */
 package frc.robot.HexLib.Creation;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveBase.SwerveDrive;
 import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveBase.SwerveModule;
+import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveAutoParameters;
 import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
 import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstants;
 import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstantsGroup;
@@ -19,7 +25,7 @@ import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConst
 public class SwerveDriveBuilder {
         private SwerveModuleConstantsGroup swerveModuleConstantsGroup;
         private SwerveBuilderConstants swerveBuilderConstants;
-
+        private SwerveAutoParameters swerveAutoParameters;
         private String gyroType;
         private String motorType;
 
@@ -32,7 +38,19 @@ public class SwerveDriveBuilder {
         ) {
                 this.swerveModuleConstantsGroup = swerveModuleConstantsGroup;
                 this.swerveBuilderConstants = swerveBuilderConstants;
+                swerveAutoParameters = new SwerveAutoParameters(new Pose2d(0, 0, new Rotation2d(0)), new PIDController(0,0,0), new PIDController(0,0,0), new ProfiledPIDController(0, 0, 0, new TrapezoidProfile.Constraints(swerveBuilderConstants.getMaxAngleSpeed(), swerveBuilderConstants.getMaxAngleAcceleration())), 0, 0, 0);
+                this.gyroType = gyroType;
+                // this.motorType = motorType;
 
+                this.length = swerveBuilderConstants.getLength();
+                this.width = swerveBuilderConstants.getWidth();
+        }
+
+        public SwerveDriveBuilder(SwerveModuleConstantsGroup swerveModuleConstantsGroup,
+                        SwerveBuilderConstants swerveBuilderConstants,SwerveAutoParameters swerveAutoParameters, String gyroType) {
+                this.swerveModuleConstantsGroup = swerveModuleConstantsGroup;
+                this.swerveBuilderConstants = swerveBuilderConstants;
+                this.swerveAutoParameters = swerveAutoParameters;
                 this.gyroType = gyroType;
                 // this.motorType = motorType;
 

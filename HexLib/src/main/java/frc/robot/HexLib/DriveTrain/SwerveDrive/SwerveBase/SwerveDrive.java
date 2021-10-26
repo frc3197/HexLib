@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveAutoParameters;
 import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderConstants;
 
 /** Represents a swerve drive style drivetrain. */
@@ -52,7 +53,7 @@ public class SwerveDrive implements Subsystem {
 
     @SuppressWarnings("static-access")
     public SwerveDrive(SwerveModule rearRight, SwerveModule rearLeft, SwerveModule frontRight, SwerveModule frontLeft,
-            SwerveBuilderConstants swerveBuilderConstants, Gyro gyro) {
+            SwerveBuilderConstants swerveBuilderConstants, SwerveAutoParameters swerveAutoParameters, Gyro gyro) {
         m_frontRight = frontRight;
         m_frontLeft = frontLeft;
         m_rearRight = rearRight;
