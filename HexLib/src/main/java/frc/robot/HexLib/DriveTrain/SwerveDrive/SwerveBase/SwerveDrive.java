@@ -21,15 +21,15 @@ import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderCons
 /** Represents a swerve drive style drivetrain. */
 public class SwerveDrive implements Subsystem {
     private static SwerveBuilderConstants swerveBuilderConstants;
-    private static double maxSpeed = swerveBuilderConstants.getMaxDriveSpeed();
+    private static double maxSpeed;
 
-    private double x = Units.inchesToMeters(swerveBuilderConstants.getWidth() / 2);
-    private double y = Units.inchesToMeters(swerveBuilderConstants.getLength() / 2);
+    private double x;
+    private double y;
     // Translation from the center of the bot, distance of the wheels to the center.
-    private final Translation2d m_frontLeftLocation = new Translation2d(x, y);
-    private final Translation2d m_frontRightLocation = new Translation2d(x, -y);
-    private final Translation2d m_rearLeftLocation = new Translation2d(-x, y);
-    private final Translation2d m_rearRightLocation = new Translation2d(-x, -y);
+    private final Translation2d m_frontLeftLocation;
+    private final Translation2d m_frontRightLocation;
+    private final Translation2d m_rearLeftLocation;
+    private final Translation2d m_rearRightLocation;
 
     // Creates 4 SwerveModule Objects
     private final SwerveModule m_frontRight;
@@ -41,11 +41,10 @@ public class SwerveDrive implements Subsystem {
     private static Gyro gyro;
 
     // Creates a SwerveDriveKinematics object
-    private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(m_frontLeftLocation,
-            m_frontRightLocation, m_rearLeftLocation, m_rearRightLocation);
+    private final SwerveDriveKinematics m_kinematics;
 
     // Creates a SwerveDriveOdometry
-    private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(m_kinematics, gyro.getRotation2d());
+    private final SwerveDriveOdometry m_odometry;
 
     @SuppressWarnings("static-access")
     public SwerveDrive(SwerveModule rearRight, SwerveModule rearLeft, SwerveModule frontRight, SwerveModule frontLeft,
@@ -58,6 +57,21 @@ public class SwerveDrive implements Subsystem {
         this.gyro = gyro;
 
         this.swerveBuilderConstants = swerveBuilderConstants;
+        maxSpeed = swerveBuilderConstants.getMaxDriveSpeed();
+
+        x = Units.inchesToMeters(swerveBuilderConstants.getWidth() / 2);
+        y = Units.inchesToMeters(swerveBuilderConstants.getLength() / 2);
+
+        m_frontLeftLocation = new Translation2d(x, y);
+        m_frontRightLocation = new Translation2d(x, -y);
+        m_rearLeftLocation = new Translation2d(-x, y);
+        m_rearRightLocation = new Translation2d(-x, -y);
+        
+        m_kinematics = new SwerveDriveKinematics(m_frontLeftLocation,
+            m_frontRightLocation, m_rearLeftLocation, m_rearRightLocation);
+
+        m_odometry = new SwerveDriveOdometry(m_kinematics, gyro.getRotation2d());
+        
 
         gyro.reset();
     }
