@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -84,8 +85,8 @@ public class SwerveModule extends SubsystemBase {
 
   @Override
   public void periodic() {
-
     // This method will be called once per scheduler run
+
   }
 
   /**
@@ -209,12 +210,13 @@ public class SwerveModule extends SubsystemBase {
 
     // Calculate the turning motor output from the turning PID controller.
     final double turnOutput = m_turningPIDController.calculate(getAngleRadians(), state.angle.getRadians());
-
+      SmartDashboard.putNumber("TurnOutput", turnOutput);
     final double turnFeedforward = m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
-
+      SmartDashboard.putNumber("TurnFeedForward", turnFeedforward);
     speed_motor.setVoltage((driveOutput + driveFeedforward) * RobotController.getBatteryVoltage());
-
+      SmartDashboard.putNumber("DriveOutput", driveOutput);
     angle_motor.setVoltage((turnOutput + turnFeedforward) * RobotController.getBatteryVoltage());
+      SmartDashboard.putNumber("DriveFeedForward", driveFeedforward);
   }
 
 }

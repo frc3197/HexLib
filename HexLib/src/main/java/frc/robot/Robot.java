@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
 
   SwerveBuilderConstants swerveBuilderConstants = new SwerveBuilderConstants(Units.inchesToMeters(20),
       Units.inchesToMeters(20), 3 * Math.PI, 1, Units.feetToMeters(30), .5, Units.inchesToMeters(4), 7.47,
-      NeutralMode.Brake, IdleMode.kBrake, new WPI_TalonFX(0), new CANSparkMax(0, MotorType.kBrushless));
+      NeutralMode.Brake, NeutralMode.Brake, new WPI_TalonFX(20), new WPI_TalonFX(20));
 
   SwerveDriveBuilder swerveDriveBuilder = new SwerveDriveBuilder(swerveModuleConstantsGroup, swerveBuilderConstants,
       "navX");
