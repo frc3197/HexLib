@@ -99,6 +99,11 @@ public class SwerveDrive implements Subsystem {
         setModuleStates(new ChassisSpeeds(xSpeed, ySpeed, rot));
       }
     }
+    
+    /** 
+     * @param chassisSpeeds
+     * @param centerOfRotation
+     */
     @SuppressWarnings("unused")
     private void setModuleStates(ChassisSpeeds chassisSpeeds, Translation2d centerOfRotation) {
 
