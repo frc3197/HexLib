@@ -8,7 +8,7 @@ package frc.robot.HexLib.Util;
 public class InputFilter {
     double input;
 
-    public InputFilter(double Input) {
+    public InputFilter(double input) {
         this.input = input;
     }
 
