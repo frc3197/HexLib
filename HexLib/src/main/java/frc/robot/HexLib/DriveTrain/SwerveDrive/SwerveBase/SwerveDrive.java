@@ -85,7 +85,7 @@ public class SwerveDrive implements Subsystem {
         setModuleStates(new ChassisSpeeds(xSpeed, ySpeed, rot));
       }
     }
-
+    @SuppressWarnings("unused")
     private void setModuleStates(ChassisSpeeds chassisSpeeds, Translation2d centerOfRotation) {
 
         // Get the module states
