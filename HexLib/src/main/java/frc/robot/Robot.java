@@ -61,9 +61,7 @@ public class Robot extends TimedRobot {
   SwerveModuleConstantsGroup swerveModuleConstantsGroup = new SwerveModuleConstantsGroup(frontLeftConstants,
       frontRightConstants, rearLeftConstants, rearRightConstants);
 
-  SwerveBuilderConstants swerveBuilderConstants = new SwerveBuilderConstants(Units.inchesToMeters(20),
-      Units.inchesToMeters(20), 3 * Math.PI, 1, Units.feetToMeters(30), .5, Units.inchesToMeters(4), 7.47,
-      NeutralMode.Brake, NeutralMode.Brake, new WPI_TalonFX(20), new WPI_TalonFX(20));
+  SwerveBuilderConstants swerveBuilderConstants = new SwerveBuilderConstants(26.125, 22, 6*Math.PI, 22.5*Math.PI, Units.feetToMeters(32.5), .035, Units.inchesToMeters(4), 1/6.86, NeutralMode.Brake, NeutralMode.Brake,new WPI_TalonFX(20), new WPI_TalonFX(20));
 
   SwerveDriveBuilder swerveDriveBuilder = new SwerveDriveBuilder(swerveModuleConstantsGroup, swerveBuilderConstants,
       "navX");
@@ -71,6 +69,7 @@ public class Robot extends TimedRobot {
   SwerveDrive swerveDrive = SwerveDriveBuilder.buildSwerve(swerveDriveBuilder);
 
   FilteredController controller = new FilteredController(new XboxController(0));
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -94,7 +93,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    
+
   }
 
   /**
@@ -138,7 +137,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    swerveDrive.drive(controller.getX(Hand.kLeft, .1), controller.getY(Hand.kLeft, .1), controller.getX(Hand.kRight, .1), true);
+    swerveDrive.drive(controller.getX(Hand.kLeft, .1), controller.getY(Hand.kLeft, .1),
+        controller.getX(Hand.kRight, .1), true);
   }
 
   /** This function is called once when the robot is disabled. */
