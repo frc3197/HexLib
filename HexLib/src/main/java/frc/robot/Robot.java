@@ -34,17 +34,17 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  SwervePIDConstants rearLeftPIDDrive = new SwervePIDConstants(0, 0, 0, 0, 0);
-  SwervePIDConstants rearLeftPIDAngle = new SwervePIDConstants(0, 0, 0, 0, 0);
+  SwervePIDConstants rearLeftPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.02);
+  SwervePIDConstants rearLeftPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.01);
 
-  SwervePIDConstants rearRightPIDDrive = new SwervePIDConstants(0, 0, 0, 0, 0);
-  SwervePIDConstants rearRightPIDAngle = new SwervePIDConstants(0, 0, 0, 0, 0);
+  SwervePIDConstants rearRightPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.02);
+  SwervePIDConstants rearRightPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.01);
 
-  SwervePIDConstants frontLeftPIDDrive = new SwervePIDConstants(0, 0, 0, 0, 0);
-  SwervePIDConstants frontLeftPIDAngle = new SwervePIDConstants(0, 0, 0, 0, 0);
+  SwervePIDConstants frontLeftPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.02);
+  SwervePIDConstants frontLeftPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.01);
 
-  SwervePIDConstants frontRightPIDDrive = new SwervePIDConstants(0, 0, 0, 0, 0);
-  SwervePIDConstants frontRightPIDAngle = new SwervePIDConstants(0, 0, 0, 0, 0);
+  SwervePIDConstants frontRightPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.02);
+  SwervePIDConstants frontRightPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.01);
 
   SwerveModuleConstants frontLeftConstants = new SwerveModuleConstants(4, 5, 2, false, false, frontLeftPIDDrive,
       frontLeftPIDAngle);
