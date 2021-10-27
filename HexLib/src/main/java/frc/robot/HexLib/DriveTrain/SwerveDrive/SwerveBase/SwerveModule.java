@@ -117,14 +117,14 @@ public class SwerveModule extends SubsystemBase {
       driveUnitsPer100ms = ((WPI_TalonFX) angle_motor).getSelectedSensorVelocity();
       // Converts the encoder rate to meters per second
       encoderRate = driveUnitsPer100ms / Constants.getTalonEncoderResolution() * 10
-          * swerveBuilderConstants.getWheelDiam() * swerveBuilderConstants.getDriveGearRatio();
+          * (swerveBuilderConstants.getWheelDiam()*Math.PI) * swerveBuilderConstants.getDriveGearRatio();
     } else {
       // Pulls the integrated sensor velocity
       driveRPM = ((CANSparkMax) angle_motor).getEncoder().getVelocity();
       // Converts the encoder rate to meters per second
-      encoderRate = driveRPM / 60 * swerveBuilderConstants.getWheelDiam() * swerveBuilderConstants.getDriveGearRatio();
+      encoderRate = driveRPM / 60 * (swerveBuilderConstants.getWheelDiam() * Math.PI) * swerveBuilderConstants.getDriveGearRatio();
     }
-
+    
     return encoderRate;
   }
 
@@ -173,7 +173,7 @@ public class SwerveModule extends SubsystemBase {
    * @return SwerveModuleState
    */
   public SwerveModuleState getState() {
-    return new SwerveModuleState(getSpeedEncoderRate(), new Rotation2d(getAngleRadians()));
+    return new SwerveModuleState(-getSpeedEncoderRate(), new Rotation2d(getAngleRadians()));
   }
 
   /**
@@ -207,10 +207,10 @@ public class SwerveModule extends SubsystemBase {
     final double driveOutput = m_drivePIDController.calculate(getSpeedEncoderRate(), state.speedMetersPerSecond);
 
     final double driveFeedforward = m_driveFeedforward.calculate(state.speedMetersPerSecond);
-
+    SmartDashboard.putNumber("driveOSpeed",state.speedMetersPerSecond);
     // Calculate the turning motor output from the turning PID controller.
     final double turnOutput = m_turningPIDController.calculate(getAngleRadians(), state.angle.getRadians());
-      SmartDashboard.putNumber("TurnOutput", turnOutput);
+      SmartDashboard.putNumber("turngetRadians", state.angle.getRadians());
     final double turnFeedforward = m_turnFeedforward.calculate(m_turningPIDController.getSetpoint().velocity);
       SmartDashboard.putNumber("TurnFeedForward", turnFeedforward);
     speed_motor.setVoltage((driveOutput + driveFeedforward) * RobotController.getBatteryVoltage());

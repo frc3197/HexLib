@@ -163,6 +163,9 @@ public class SwerveDrive implements Subsystem {
         gyro.reset();
     }
 
+    public void calibrateGyro(){
+        gyro.calibrate();
+    }
     /**
      * Resets the Encoders
      */

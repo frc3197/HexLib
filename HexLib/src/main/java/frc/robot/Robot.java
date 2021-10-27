@@ -37,25 +37,26 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  SwervePIDConstants rearLeftPIDDrive = new SwervePIDConstants(0, 0, 0, 0, 0);
-  SwervePIDConstants rearLeftPIDAngle = new SwervePIDConstants(0, 0, 0, 0, 0);
+  SwervePIDConstants rearLeftPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.036);
+  SwervePIDConstants rearLeftPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.012);
 
-  SwervePIDConstants rearRightPIDDrive = new SwervePIDConstants(0, 0, 0, 0, 0);
-  SwervePIDConstants rearRightPIDAngle = new SwervePIDConstants(0, 0, 0, 0, 0);
+  SwervePIDConstants rearRightPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.036);
+  SwervePIDConstants rearRightPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.012);
 
-  SwervePIDConstants frontLeftPIDDrive = new SwervePIDConstants(0, 0, 0, 0, 0);
-  SwervePIDConstants frontLeftPIDAngle = new SwervePIDConstants(0, 0, 0, 0, 0);
+  SwervePIDConstants frontLeftPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.036);
+  SwervePIDConstants frontLeftPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.012);
 
-  SwervePIDConstants frontRightPIDDrive = new SwervePIDConstants(0, 0, 0, 0, 0);
-  SwervePIDConstants frontRightPIDAngle = new SwervePIDConstants(0, 0, 0, 0, 0);
+  SwervePIDConstants frontRightPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.036);
+  SwervePIDConstants frontRightPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.012);
 
-  SwerveModuleConstants frontLeftConstants = new SwerveModuleConstants(4, 5, 2, false, false, frontLeftPIDDrive,
+
+  SwerveModuleConstants frontLeftConstants = new SwerveModuleConstants(5, 4, 2, false, true, frontLeftPIDDrive,
       frontLeftPIDAngle);
-  SwerveModuleConstants rearLeftConstants = new SwerveModuleConstants(2, 3, 1, false, false, rearLeftPIDDrive,
+  SwerveModuleConstants rearLeftConstants = new SwerveModuleConstants(3, 2, 1, false, true, rearLeftPIDDrive,
       rearLeftPIDAngle);
-  SwerveModuleConstants frontRightConstants = new SwerveModuleConstants(6, 7, 3, false, false, frontRightPIDDrive,
+  SwerveModuleConstants frontRightConstants = new SwerveModuleConstants(7, 6, 3, false, true, frontRightPIDDrive,
       frontRightPIDAngle);
-  SwerveModuleConstants rearRightConstants = new SwerveModuleConstants(0, 1, 0, false, false, rearRightPIDDrive,
+  SwerveModuleConstants rearRightConstants = new SwerveModuleConstants(1, 0, 0, false, true, rearRightPIDDrive,
       rearRightPIDAngle);
 
   SwerveModuleConstantsGroup swerveModuleConstantsGroup = new SwerveModuleConstantsGroup(frontLeftConstants,
@@ -132,13 +133,17 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
+    swerveDrive.resetEncoders();
+    swerveDrive.resetGyro();
+    swerveDrive.calibrateGyro();
+    
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    swerveDrive.drive(controller.getX(Hand.kLeft, .1), controller.getY(Hand.kLeft, .1),
-        controller.getX(Hand.kRight, .1), true);
+    swerveDrive.drive(controller.getX(Hand.kLeft, .1), controller.getY(Hand.kLeft, .1),controller.getX(Hand.kRight, .1), true);
+    //swerveDrive.drive(0, 0, 0, true);
   }
 
   /** This function is called once when the robot is disabled. */
