@@ -8,6 +8,7 @@
 */
 package frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveBase;
 
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
@@ -71,7 +72,7 @@ public class SwerveDrive implements Subsystem {
         m_kinematics = new SwerveDriveKinematics(m_frontLeftLocation,
             m_frontRightLocation, m_rearLeftLocation, m_rearRightLocation);
 
-        m_odometry = new SwerveDriveOdometry(m_kinematics, gyro.getRotation2d());
+        m_odometry = new SwerveDriveOdometry(m_kinematics, new Rotation2d(-gyro.getAngle()));
         
 
         gyro.reset();

@@ -11,6 +11,8 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
@@ -20,6 +22,7 @@ import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveBuilderCons
 import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstants;
 import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwerveModuleConstantsGroup;
 import frc.robot.HexLib.DriveTrain.SwerveDrive.SwerveDriveUtil.SwervePIDConstants;
+import frc.robot.HexLib.Util.FilteredController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -67,6 +70,7 @@ public class Robot extends TimedRobot {
 
   SwerveDrive swerveDrive = SwerveDriveBuilder.buildSwerve(swerveDriveBuilder);
 
+  FilteredController controller = new FilteredController(new XboxController(0));
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -90,6 +94,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    
   }
 
   /**
@@ -133,6 +138,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    swerveDrive.drive(controller.getX(Hand.kLeft, .1), controller.getY(Hand.kLeft, .1), controller.getX(Hand.kRight, .1), true);
   }
 
   /** This function is called once when the robot is disabled. */
