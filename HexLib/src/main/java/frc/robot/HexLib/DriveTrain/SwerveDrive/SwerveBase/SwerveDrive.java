@@ -77,9 +77,8 @@ public class SwerveDrive implements Subsystem {
 
         m_odometry = new SwerveDriveOdometry(m_kinematics, m_gyro.getRotation2d());
 
-        m_poseEstimator = new SwerveDrivePoseEstimator(m_gyro.getRotation2d(), initialPoseMeters, m_kinematics, stateStdDevs, localMeasurementStdDevs, visionMeasurementStdDevs);
-        
-        
+        m_poseEstimator = new SwerveDrivePoseEstimator(m_gyro.getRotation2d(), swerveAutoParameters.getInitialPos(), m_kinematics, swerveAutoParameters.getStateSD(), swerveAutoParameters.getLocalMeasurementSD(), swerveAutoParameters.getVisionMeasurementSD());
+    
         m_gyro.reset();
     }
 
