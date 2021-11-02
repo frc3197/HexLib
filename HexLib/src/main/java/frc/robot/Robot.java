@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -38,17 +39,16 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   SwervePIDConstants rearLeftPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.036);
-  SwervePIDConstants rearLeftPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.012);
+  SwervePIDConstants rearLeftPIDAngle = new SwervePIDConstants(0.1, 0, 0.004, 0.12, 0.012);
 
   SwervePIDConstants rearRightPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.036);
-  SwervePIDConstants rearRightPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.012);
+  SwervePIDConstants rearRightPIDAngle = new SwervePIDConstants(0.1, 0, 0.004, 0.12, 0.012);
 
   SwervePIDConstants frontLeftPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.036);
-  SwervePIDConstants frontLeftPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.012);
+  SwervePIDConstants frontLeftPIDAngle = new SwervePIDConstants(0.1, 0, 0.004, 0.12, 0.012);
 
   SwervePIDConstants frontRightPIDDrive = new SwervePIDConstants(0.005, 0, 0, 0.2, 0.036);
-  SwervePIDConstants frontRightPIDAngle = new SwervePIDConstants(0.5, 0, 0.004, 0.12, 0.012);
-
+  SwervePIDConstants frontRightPIDAngle = new SwervePIDConstants(0.1, 0, 0.004, 0.12, 0.012);
 
   SwerveModuleConstants frontLeftConstants = new SwerveModuleConstants(5, 4, 2, false, true, frontLeftPIDDrive,
       frontLeftPIDAngle);
@@ -62,10 +62,16 @@ public class Robot extends TimedRobot {
   SwerveModuleConstantsGroup swerveModuleConstantsGroup = new SwerveModuleConstantsGroup(frontLeftConstants,
       frontRightConstants, rearLeftConstants, rearRightConstants);
 
-  SwerveBuilderConstants swerveBuilderConstants = new SwerveBuilderConstants(26.125, 22, 6*Math.PI, 22.5*Math.PI, Units.feetToMeters(32.5), .035, Units.inchesToMeters(4), 1/6.86, NeutralMode.Brake, NeutralMode.Brake,new WPI_TalonFX(20), new WPI_TalonFX(20));
+  SwerveBuilderConstants swerveBuilderConstants = new SwerveBuilderConstants(26.125, 22, 6 * Math.PI, 22.5 * Math.PI,
+      Units.feetToMeters(32.5), .035, Units.inchesToMeters(4), 1 / 6.86, NeutralMode.Brake, NeutralMode.Brake,
+      new WPI_TalonFX(20), new WPI_TalonFX(20));
 
   SwerveDriveBuilder swerveDriveBuilder = new SwerveDriveBuilder(swerveModuleConstantsGroup, swerveBuilderConstants,
       "navX");
+
+  private final SlewRateLimiter m_xspeedLimiter = new SlewRateLimiter(4);
+  private final SlewRateLimiter m_yspeedLimiter = new SlewRateLimiter(4);
+  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(20);
 
   SwerveDrive swerveDrive = SwerveDriveBuilder.buildSwerve(swerveDriveBuilder);
 
@@ -120,13 +126,13 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
+    case kCustomAuto:
+      // Put custom auto code here
+      break;
+    case kDefaultAuto:
+    default:
+      // Put default auto code here
+      break;
     }
   }
 
@@ -136,14 +142,15 @@ public class Robot extends TimedRobot {
     swerveDrive.resetEncoders();
     swerveDrive.resetGyro();
     swerveDrive.calibrateGyro();
-    
+
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    swerveDrive.drive(controller.getX(Hand.kLeft, .1), controller.getY(Hand.kLeft, .1),controller.getX(Hand.kRight, .1), true);
-    //swerveDrive.drive(0, 0, 0, true);
+    swerveDrive.drive(controller.getX(Hand.kLeft, .1), controller.getY(Hand.kLeft, .1),
+        controller.getX(Hand.kRight, .1), true);
+    // swerveDrive.drive(0, 0, 0, true);
   }
 
   /** This function is called once when the robot is disabled. */
