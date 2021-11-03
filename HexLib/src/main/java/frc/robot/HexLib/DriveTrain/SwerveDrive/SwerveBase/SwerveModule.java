@@ -59,8 +59,6 @@ public class SwerveModule extends SubsystemBase {
         swerveModuleConstants.getSpeedID(), swerveBuilderConstants.getDriveBrakeMode(),
         swerveBuilderConstants.getRampRate(), swerveModuleConstants.getSpeedInverted());
 
-    // angle_motor = new WPI_TalonFX(swerveModuleConstants.getAngleID());
-    // speed_motor = new WPI_TalonFX(swerveModuleConstants.getSpeedID());
     kModuleMaxAngularVelocity = swerveBuilderConstants.getMaxAngleSpeed();
     kModuleMaxAngularAcceleration = swerveBuilderConstants.getMaxAngleAcceleration();
 

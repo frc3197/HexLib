@@ -127,6 +127,7 @@ public class CreationUtil {
      */
     private static WPI_TalonFX setupWPI_TalonFX(WPI_TalonFX motor, NeutralMode brakeMode, double rampRate,
             boolean inverted) {
+        motor.configFactoryDefault();
         motor.setNeutralMode(brakeMode);
         motor.configOpenloopRamp(rampRate);
         motor.setInverted(inverted);

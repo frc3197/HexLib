@@ -166,6 +166,16 @@ public class SwerveDrive implements Subsystem {
     public void calibrateGyro(){
         gyro.calibrate();
     }
+
+    public double getMaxDriveSpeed(){
+        return maxSpeed;
+    }
+    public double getMaxAngleSpeed(){
+        return swerveBuilderConstants.getMaxAngleSpeed();
+    }
+    public double getMaxAngleAcceleration(){
+        return swerveBuilderConstants.getMaxAngleAcceleration();
+    }
     /**
      * Resets the Encoders
      */
