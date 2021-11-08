@@ -1,4 +1,15 @@
 # HexLib
+
+
+New: This library is actually useless now that SDS released their own with near identical helper classes. Jokes on us, their implementation actually works. Until further notice, this project is shelved
+
+
+
+
+
+
+
+
 WIP Library for FRC
 The aim of this is to reduce the work on CODING Swerve and to get straight to tuning
 For the SDS MK3 Modules with support for:
